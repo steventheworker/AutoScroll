@@ -35,6 +35,14 @@ CGEventTapCallBack handleMouseUp(CGEventTapProxy proxy ,
     [[helperLib getApp] mouseup: event : type];
     return [autoscroll mouseup: event : type] ? (CGEventTapCallBack) event : nil;
 }
+CGEventTapCallBack handleMouseMove(CGEventTapProxy proxy ,
+                                  CGEventType type ,
+                                  CGEventRef event ,
+                                  void * refcon ) {
+    [[helperLib getApp] mousemove: event : type];
+    [autoscroll mousemove: event : type];
+    return (CGEventTapCallBack) event;
+}
 //listening to monitors attach / detach
 void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* userInfo) {
     if (flags && kCGDisplayAddFlag && kCGDisplayRemoveFlag) {} else return;
@@ -321,6 +329,7 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
 + (void) listenScreens {CGDisplayRegisterReconfigurationCallback((CGDisplayReconfigurationCallBack) proc, (void*) nil);}
 + (void) listenMouseDown {[helperLib listenMask:CGEventMaskBit(kCGEventLeftMouseDown) | CGEventMaskBit(kCGEventRightMouseDown) | CGEventMaskBit(kCGEventOtherMouseDown) : (CGEventTapCallBack) handleMouseDown];}
 + (void) listenMouseUp {[helperLib listenMask:CGEventMaskBit(kCGEventLeftMouseUp) | CGEventMaskBit(kCGEventRightMouseUp) | CGEventMaskBit(kCGEventOtherMouseUp) : (CGEventTapCallBack) handleMouseUp];}
++ (void) listenMouseMove {[helperLib listenMask:CGEventMaskBit(kCGEventMouseMoved) : (CGEventTapCallBack) handleMouseMove];}
 + (void) listenMask : (CGEventMask) emask : (CGEventTapCallBack) handler {
     CFMachPortRef myEventTap;
     CFRunLoopSourceRef eventTapRLSrc;

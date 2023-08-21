@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) listenScreens;
 + (void) listenMouseDown;
 + (void) listenMouseUp;
++ (void) listenMouseMove;
 + (void) listenMask: (CGEventMask) emask : (CGEventTapCallBack) handler;
 + (AppDelegate *) getApp;
 + (void) killDock;

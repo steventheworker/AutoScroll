@@ -111,7 +111,7 @@ void overrideDefaultMiddleMouseUp(CGEventRef e) {
     overrideDefaultMiddleMouseUp(e);
     return NO;
 }
-+ (void) mousemoved: (CGEventRef) e : (CGEventType) etype {
++ (void) mousemove: (CGEventRef) e : (CGEventType) etype {
     if (scrollCounter == -1) return;
     cur = CGEventGetLocation(e);
 }

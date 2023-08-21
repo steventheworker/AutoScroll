@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) init;
 + (BOOL) mousedown: (CGEventRef) e : (CGEventType) etype;
 + (BOOL) mouseup: (CGEventRef) e : (CGEventType) etype;
-+ (void) mousemoved: (CGEventRef) e : (CGEventType) etype;
++ (void) mousemove: (CGEventRef) e : (CGEventType) etype;
 @end
 
 NS_ASSUME_NONNULL_END

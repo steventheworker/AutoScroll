@@ -31,4 +31,5 @@
 }
 - (void) mousedown: (CGEventRef) e : (CGEventType) etype {[app mousedown: e : etype];}
 - (void) mouseup: (CGEventRef) e : (CGEventType) etype {[app mouseup: e : etype];}
+- (void) mousemove: (CGEventRef) e : (CGEventType) etype {[app mousemove: e : etype];}
 @end

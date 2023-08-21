@@ -6,19 +6,24 @@
 //
 
 #import "app.h"
+#import "globals.h"
 #import "autoscroll.h"
 #import "helperLib.h"
 
 @implementation app
 + (void) mousedown: (CGEventRef) e : (CGEventType) etype {
-    NSLog(@"md");
+    
 }
 + (void) mouseup: (CGEventRef) e : (CGEventType) etype {
-    NSLog(@"mu");
+    
+}
++ (void) mousemove: (CGEventRef) e : (CGEventType) etype {
+    
 }
 + (void) init {
     [autoscroll init];
     [helperLib listenMouseUp];
     [helperLib listenMouseDown];
+    [helperLib listenMouseMove];
 }
 @end

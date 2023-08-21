@@ -35,6 +35,7 @@
 */
 - (void) mousedown: (CGEventRef) e : (CGEventType) etype;
 - (void) mouseup: (CGEventRef) e : (CGEventType) etype;
+- (void) mousemove: (CGEventRef) e : (CGEventType) etype;
 - (void) bindScreens;
 - (void) measureScreens;
 /*
