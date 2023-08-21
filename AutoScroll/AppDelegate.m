@@ -6,6 +6,10 @@
 //
 
 #import "AppDelegate.h"
+#import "src/helperLib.h"
+#import "src/app.h"
+#import "src/globals.h"
+#import "src/autoscroll.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +20,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    [app init];
 }
 
 
