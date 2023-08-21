@@ -23,6 +23,7 @@
     [app init];
 }
 
+- (IBAction)bindQuitApp:(id)sender {[NSApp terminate:nil];}
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
@@ -33,5 +34,11 @@
     return YES;
 }
 
+- (void) awakeFromNib {
+    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
+    [[statusItem button] setImage: [NSImage imageNamed:@"menuIcon"]];
+    [statusItem setMenu: iconMenu];
+    [statusItem setVisible: YES];
+}
 
 @end

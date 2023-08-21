@@ -18,6 +18,7 @@
 		BF670C502A9328D30013541A /* autoscroll-overlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF670C4F2A9328D30013541A /* autoscroll-overlay.xib */; };
 		BF670C542A9329A00013541A /* default cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = BF670C532A9329A00013541A /* default cursor.png */; };
 		BF670C562A9329E00013541A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = BF670C552A9329E00013541A /* .gitignore */; };
+		BF670C582A93317B0013541A /* menuIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BF670C572A93317B0013541A /* menuIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		BF670C4F2A9328D30013541A /* autoscroll-overlay.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "autoscroll-overlay.xib"; sourceTree = "<group>"; };
 		BF670C532A9329A00013541A /* default cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default cursor.png"; sourceTree = "<group>"; };
 		BF670C552A9329E00013541A /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
+		BF670C572A93317B0013541A /* menuIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuIcon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				BF435DB52A91E4DA00D402A1 /* AppDelegate.m */,
 				BF435DB72A91E4DB00D402A1 /* Assets.xcassets */,
 				BF435DB92A91E4DB00D402A1 /* MainMenu.xib */,
+				BF670C572A93317B0013541A /* menuIcon.png */,
 				BF435DBC2A91E4DB00D402A1 /* main.m */,
 				BF435DBE2A91E4DB00D402A1 /* AutoScroll.entitlements */,
 			);
@@ -166,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF670C562A9329E00013541A /* .gitignore in Resources */,
+				BF670C582A93317B0013541A /* menuIcon.png in Resources */,
 				BF670C542A9329A00013541A /* default cursor.png in Resources */,
 				BF435DB82A91E4DB00D402A1 /* Assets.xcassets in Resources */,
 				BF670C502A9328D30013541A /* autoscroll-overlay.xib in Resources */,
@@ -325,6 +329,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -353,6 +358,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
