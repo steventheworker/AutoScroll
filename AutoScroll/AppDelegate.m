@@ -17,28 +17,18 @@
 @end
 
 @implementation AppDelegate
-
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-    [app init];
-}
-
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
 - (IBAction)bindQuitApp:(id)sender {[NSApp terminate:nil];}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
-}
-
-
+- (void)applicationWillTerminate:(NSNotification *)aNotification {}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
 }
-
 - (void) awakeFromNib {
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
     [[statusItem button] setImage: [NSImage imageNamed:@"menuIcon"]];
     [statusItem setMenu: iconMenu];
     [statusItem setVisible: YES];
 }
-
+- (void) mousedown: (CGEventRef) e : (CGEventType) etype {[app mousedown: e : etype];}
+- (void) mouseup: (CGEventRef) e : (CGEventType) etype {[app mouseup: e : etype];}
 @end
