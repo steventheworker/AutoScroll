@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF2784682A9AD62400D48014 /* MenuDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2784672A9AD62400D48014 /* MenuDelegate.m */; };
 		BF435DB62A91E4DA00D402A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF435DB52A91E4DA00D402A1 /* AppDelegate.m */; };
 		BF435DB82A91E4DB00D402A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF435DB72A91E4DB00D402A1 /* Assets.xcassets */; };
 		BF435DBB2A91E4DB00D402A1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF435DB92A91E4DB00D402A1 /* MainMenu.xib */; };
@@ -22,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BF2784662A9AD62400D48014 /* MenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuDelegate.h; sourceTree = "<group>"; };
+		BF2784672A9AD62400D48014 /* MenuDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuDelegate.m; sourceTree = "<group>"; };
 		BF435DB12A91E4DA00D402A1 /* AutoScroll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoScroll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF435DB42A91E4DA00D402A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BF435DB52A91E4DA00D402A1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 				BF670C472A9327830013541A /* helperLib.m */,
 				BF670C442A93277A0013541A /* globals.h */,
 				BF670C452A93277A0013541A /* globals.m */,
+				BF2784662A9AD62400D48014 /* MenuDelegate.h */,
+				BF2784672A9AD62400D48014 /* MenuDelegate.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -188,6 +193,7 @@
 				BF670C4B2A93279F0013541A /* autoscroll.m in Sources */,
 				BF670C482A9327830013541A /* helperLib.m in Sources */,
 				BF670C4E2A9327E90013541A /* app.m in Sources */,
+				BF2784682A9AD62400D48014 /* MenuDelegate.m in Sources */,
 				BF435DBD2A91E4DB00D402A1 /* main.m in Sources */,
 				BF435DB62A91E4DA00D402A1 /* AppDelegate.m in Sources */,
 			);
