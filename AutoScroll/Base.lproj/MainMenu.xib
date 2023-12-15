@@ -729,17 +729,6 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dID-XC-oE3">
-                        <rect key="frame" x="263" y="227" width="160" height="19"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="recessed" title="Default Blacklist" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cgu-1C-bbV">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                            <font key="font" metaFont="systemBold" size="12"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="defaultBlacklistLinkBtn:" target="Voe-Tx-rLC" id="5hh-xQ-lZV"/>
-                        </connections>
-                    </button>
                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WYd-cs-vbd">
                         <rect key="frame" x="60" y="291" width="365" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -763,6 +752,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="checkUncheckMenuIcon:" target="Voe-Tx-rLC" id="qXw-Jq-Zvx"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dID-XC-oE3">
+                        <rect key="frame" x="300" y="238" width="134" height="19"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="recessed" title="Default Blacklist 🔗" bezelStyle="recessed" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cgu-1C-bbV">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                            <font key="font" metaFont="systemBold" size="12"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="defaultBlacklistLinkBtn:" target="Voe-Tx-rLC" id="5hh-xQ-lZV"/>
                         </connections>
                     </button>
                 </subviews>
