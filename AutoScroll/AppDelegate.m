@@ -24,8 +24,6 @@
     return YES;
 }
 - (void) awakeFromNib {
-    self->menuDelegate = [[MenuDelegate alloc] init];
-    iconMenu.delegate = self->menuDelegate;
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
     [[statusItem button] setImage: [NSImage imageNamed:@"menuIcon"]];
     [statusItem setMenu: iconMenu];

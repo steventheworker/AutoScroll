@@ -6,7 +6,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "MenuDelegate.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate> {
     @public AXUIElementRef   _systemWideAccessibilityObject;
@@ -26,7 +25,6 @@
     NSDictionary*         runningApps;
 
     //UI
-    MenuDelegate*         menuDelegate;
     NSStatusItem *statusItem;
     __weak IBOutlet NSMenu *iconMenu;
     __weak IBOutlet NSView *MainMenu;
