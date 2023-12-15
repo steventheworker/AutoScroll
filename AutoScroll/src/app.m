@@ -15,14 +15,17 @@ CFMachPortRef mouseupEventTapRef;
 CFMachPortRef mousemoveEventTapRef;
 
 @implementation app
-+ (void) mousedown: (CGEventRef) e : (CGEventType) etype {
-    
++ (void) mousedown: (CGEventRef) e : (CGEventType) type {
+    if (type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput) if (!CGEventTapIsEnabled(mousedownEventTapRef)) CGEventTapEnable(mousedownEventTapRef, true);
+
 }
-+ (void) mouseup: (CGEventRef) e : (CGEventType) etype {
-    
++ (void) mouseup: (CGEventRef) e : (CGEventType) type {
+    if (type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput) if (!CGEventTapIsEnabled(mouseupEventTapRef)) CGEventTapEnable(mouseupEventTapRef, true);
+
 }
-+ (void) mousemove: (CGEventRef) e : (CGEventType) etype {
-    
++ (void) mousemove: (CGEventRef) e : (CGEventType) type {
+    if (type == kCGEventTapDisabledByTimeout || type == kCGEventTapDisabledByUserInput) if (!CGEventTapIsEnabled(mousemoveEventTapRef)) CGEventTapEnable(mousemoveEventTapRef, true);
+
 }
 + (void) init {
     [autoscroll init];
