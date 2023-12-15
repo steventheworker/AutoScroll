@@ -334,7 +334,10 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
     CFMachPortRef myEventTap;
     CFRunLoopSourceRef eventTapRLSrc;
     myEventTap = CGEventTapCreate (
+//       kCGHIDEventTap, // Catch all events (Before system processes it)
+//       kCGAnnotatedSessionEventTap, //Specifies that an event tap is placed at the point where session events have been annotated to flow to an application.
         kCGSessionEventTap, // Catch all events for current user session
+//       kCGHeadInsertEventTap, // Append to beginning of EventTap list
         kCGTailAppendEventTap, // Append to end of EventTap list
         kCGEventTapOptionDefault, // handler returns nil to preventDefault
         emask,
@@ -348,11 +351,13 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
     );
     CFRunLoopAddSource(// Add the source to the current RunLoop
         CFRunLoopGetCurrent(),
+//       CFRunLoopGetMain(),
         eventTapRLSrc,
-        kCFRunLoopDefaultMode
+        kCFRunLoopCommonModes
     );
     CFRelease(eventTapRLSrc);
     return myEventTap;
+
 }
 + (void) listenRunningAppsChanged {
     //listeners
