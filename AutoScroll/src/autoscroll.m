@@ -7,6 +7,7 @@
 
 #import "autoscroll.h"
 #import "helperLib.h"
+#import "globals.h"
 
 //"config"
 int autoscrollIconSize = 32;
@@ -70,14 +71,27 @@ void shouldTriggerMiddleClick(void) { // allows middle clicks to go through if i
 void overrideDefaultMiddleMouseDown(CGEventRef e) {
     if (!autoscrollImageWindow) return;
     cur = CGEventGetLocation(e);
-    scrollCounter = 0;
-    startPoint = cur;
-    if (timerRef) [timerRef invalidate];
-    timerRef = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:autoscrollLoop];
-    //custom cursor
-    [autoscrollImageWindow setIsVisible:YES];
-    float convertedY = [[helperLib getMouseScreen] frame].size.height - cur.y;
-    [autoscrollImageWindow setFrame: NSMakeRect(cur.x - autoscrollIconSize/2, convertedY - autoscrollIconSize/2, autoscrollIconSize, autoscrollIconSize) display: YES];
+    NSUInteger _flags = [NSEvent modifierFlags] & NSEventModifierFlagDeviceIndependentFlagsMask;
+    NSMutableDictionary<NSString *, NSNumber *> *modifierStates = [NSMutableDictionary dictionary];
+    if ((_flags & NSEventModifierFlagControl) != 0) modifierStates[@"ctrl"] = @1;
+    if ((_flags & NSEventModifierFlagOption) != 0) modifierStates[@"opt"] = @1;
+    if ((_flags & NSEventModifierFlagCommand) != 0)modifierStates[@"cmd"] = @1;
+    if ((_flags & NSEventModifierFlagShift) != 0) modifierStates[@"shift"] = @1;
+    NSDictionary<NSString *, NSNumber *> *immutableDictionary = [modifierStates copy];
+
+    int waitT = 0;
+    if (immutableDictionary.count >= 3) waitT = 333;
+
+    setTimeout(^{
+        scrollCounter = 0;
+        startPoint = cur;
+        if (timerRef) [timerRef invalidate];
+        timerRef = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:autoscrollLoop];
+        //custom cursor
+        [autoscrollImageWindow setIsVisible:YES];
+        float convertedY = [[helperLib getMouseScreen] frame].size.height - cur.y;
+        [autoscrollImageWindow setFrame: NSMakeRect(cur.x - autoscrollIconSize/2, convertedY - autoscrollIconSize/2, autoscrollIconSize, autoscrollIconSize) display: YES];
+    }, waitT);
 }
 void overrideDefaultMiddleMouseUp(CGEventRef e) {
     if (!autoscrollImageWindow) return;
