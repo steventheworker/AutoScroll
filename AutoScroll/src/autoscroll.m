@@ -17,6 +17,14 @@ BOOL isBlacklisted(NSString* appBID) {
         if ([str isEqualToString: appBID]) return YES;
     return NO;
 }
+NSArray* parseBlacklistStr(NSString* str) {
+    NSMutableArray* ret = NSMutableArray.array;
+    for (NSString* line in [str componentsSeparatedByString: @"\n"]) {
+        NSString* appbid = [line stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (appbid.length) [ret addObject: appbid];
+    }
+    return ret;
+}
 
 NSWindow* autoscrollImageWindow;
 NSTimer* timerRef;
@@ -110,11 +118,11 @@ void overrideDefaultMiddleMouseUp(CGEventRef e) {
     [autoscrollImageWindow setLevel: NSPopUpMenuWindowLevel]; //float window
     [autoscrollImageWindow setIgnoresMouseEvents:YES]; //allows the scroll to not be absorbed by the window
     [autoscrollImageWindow setBackgroundColor:[NSColor clearColor]]; //transparent window background
-    [self updateBlacklist];
+    setTimeout(^{[self updateBlacklist];}, 0);
 }
 + (void) updateBlacklist {
     NSString* txt = ((NSTextView*)[helperLib getApp]->blacklistView.documentView).string;
-    NSLog(@"%@",txt);
+    blacklist = parseBlacklistStr(txt);
 }
 + (BOOL) mousedown: (CGEventRef) e : (CGEventType) etype {
     if (etype != kCGEventOtherMouseDown) return YES;

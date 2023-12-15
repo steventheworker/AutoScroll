@@ -26,14 +26,19 @@ NSArray* DEFAULT_BLACKLIST = @[
     @"com.jetbrains.appcode",
     @"com.jetbrains.pycharm",
     /* @"com.apple.Safari", @"org.mozilla.firefoxdeveloperedition" */];
+NSString* defaultBlacklistStr(void) {
+    NSMutableString* ret = NSMutableString.string;
+    for (NSString* appbid in DEFAULT_BLACKLIST) [ret appendString: [NSString stringWithFormat: @"%@\n", appbid]];
+    return ret;
+}
 
 @interface AppDelegate ()
 //@property (strong) IBOutlet NSWindow *window;
 @end
 
 @implementation AppDelegate
+/* ibaction's */
 - (IBAction)defaultBlacklistLinkBtn:(id)sender {
-    NSButton* button = (NSButton*)sender;
     [NSWorkspace.sharedWorkspace openURL: [NSURL URLWithString: @"https://github.com/steventheworker/AutoScroll/blob/main/AutoScroll/AppDelegate.m"]];
 }
 - (IBAction)checkUncheckMenuIcon:(id)sender {
@@ -41,8 +46,17 @@ NSArray* DEFAULT_BLACKLIST = @[
     [[NSUserDefaults standardUserDefaults] setBool: (BOOL) [sender state] forKey: @"showMenubarIcon"];
 }
 - (IBAction)openPrefs:(id)sender {[app openPrefs];}
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
 - (IBAction)bindQuitApp:(id)sender {[NSApp terminate:nil];}
+
+/* lifecycle */
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [app init];
+    
+    //blacklist
+    NSString* blacklistVal = [NSUserDefaults.standardUserDefaults objectForKey: @"blacklist"];
+    [(NSTextView*)blacklistView.documentView setString: blacklistVal == NULL ? defaultBlacklistStr() : blacklistVal];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(blacklistDidChange:) name: NSTextDidChangeNotification object: blacklistView.documentView];
+}
 - (void)applicationWillTerminate:(NSNotification *)aNotification {}
 - (BOOL)applicationSupportsSecureRestorableState:(NSApplication *)app {
     return YES;
@@ -54,6 +68,12 @@ NSArray* DEFAULT_BLACKLIST = @[
     [statusItem setMenu: iconMenu];
     [statusItem setVisible: iconPrefsVal ? iconPrefsVal.boolValue : YES];
     [menuiconCheckbox.cell setIntValue: iconPrefsVal ? iconPrefsVal.boolValue : YES];
+}
+
+/* events */
+- (void) blacklistDidChange: (NSNotification*) notification {
+    [autoscroll updateBlacklist];
+    [NSUserDefaults.standardUserDefaults setValue: ((NSTextView*)blacklistView.documentView).string forKey: @"blacklist"];
 }
 - (void) mousedown: (CGEventRef) e : (CGEventType) etype {[app mousedown: e : etype];}
 - (void) mouseup: (CGEventRef) e : (CGEventType) etype {[app mouseup: e : etype];}

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL) mousedown: (CGEventRef) e : (CGEventType) etype;
 + (BOOL) mouseup: (CGEventRef) e : (CGEventType) etype;
 + (void) mousemove: (CGEventRef) e : (CGEventType) etype;
++ (void) updateBlacklist;
 @end
 
 NS_ASSUME_NONNULL_END
