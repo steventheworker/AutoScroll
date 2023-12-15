@@ -30,6 +30,16 @@ CFMachPortRef mousemoveEventTapRef;
 + (void) init {
     [autoscroll init];
     [self startListening]; //cgeventtap
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(appBecameActive:) name: NSApplicationDidBecomeActiveNotification object: nil];
+}
++ (void) appBecameActive: (NSNotification*) notification {
+    // NSLog(@"app became active"); // triggers when run on xcode onlaunch
+    // don't raise prefs if sparkle updater visible (may open on launch (and triggers appBecameActive unintentionally))
+    NSArray* windows = [[NSApplication sharedApplication] windows];
+    // don't raise mainWindow if app already has a visible app (ignore menubar icon)
+    for (NSWindow* cur in windows) if (cur.isVisible) {if (cur.level == NSStatusWindowLevel) continue; else return;}
+    // raise main window
+    [app openPrefs];
 }
 + (void) startListening {
     // ask for input monitoring first
