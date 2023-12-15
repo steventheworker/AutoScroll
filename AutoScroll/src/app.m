@@ -43,4 +43,11 @@ CFMachPortRef mousemoveEventTapRef;
     CFRelease(mouseupEventTapRef);
     mouseupEventTapRef = NULL;
 }
++ (void) openPrefs {
+    [helperLib.getApp.window setIsVisible: YES];
+//    [prefsController render];
+    [NSApp activateIgnoringOtherApps: YES];
+    [helperLib.getApp.window makeKeyAndOrderFront: nil];
+
+}
 @end

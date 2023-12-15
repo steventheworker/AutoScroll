@@ -12,11 +12,11 @@
 #import "src/autoscroll.h"
 
 @interface AppDelegate ()
-
-@property (strong) IBOutlet NSWindow *window;
+//@property (strong) IBOutlet NSWindow *window;
 @end
 
 @implementation AppDelegate
+- (IBAction)openPrefs:(id)sender {[app openPrefs];}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
 - (IBAction)bindQuitApp:(id)sender {[NSApp terminate:nil];}
 - (void)applicationWillTerminate:(NSNotification *)aNotification {}

@@ -30,6 +30,7 @@
     __weak IBOutlet NSView *MainMenu;
     __weak IBOutlet NSTextField *BTTState;
 }
+@property (strong) IBOutlet NSWindow *window;
 /*
    Event handlers
 */

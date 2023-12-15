@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) mousemove: (CGEventRef) e : (CGEventType) etype;
 + (void) startListening;
 + (void) stopListening;
++ (void) openPrefs;
 @end
 
 NS_ASSUME_NONNULL_END
