@@ -16,6 +16,10 @@
 @end
 
 @implementation AppDelegate
+- (IBAction)checkUncheckMenuIcon:(id)sender {
+    [statusItem setVisible: (BOOL) [sender state]];
+    [[NSUserDefaults standardUserDefaults] setBool: (BOOL) [sender state] forKey: @"showMenubarIcon"];
+}
 - (IBAction)openPrefs:(id)sender {[app openPrefs];}
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {[app init];}
 - (IBAction)bindQuitApp:(id)sender {[NSApp terminate:nil];}
@@ -24,10 +28,12 @@
     return YES;
 }
 - (void) awakeFromNib {
+    NSNumber* iconPrefsVal = [NSUserDefaults.standardUserDefaults objectForKey: @"showMenubarIcon"];
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength];
     [[statusItem button] setImage: [NSImage imageNamed:@"menuIcon"]];
     [statusItem setMenu: iconMenu];
-    [statusItem setVisible: YES];
+    [statusItem setVisible: iconPrefsVal ? iconPrefsVal.boolValue : YES];
+    [menuiconCheckbox.cell setIntValue: iconPrefsVal ? iconPrefsVal.boolValue : YES];
 }
 - (void) mousedown: (CGEventRef) e : (CGEventType) etype {[app mousedown: e : etype];}
 - (void) mouseup: (CGEventRef) e : (CGEventType) etype {[app mouseup: e : etype];}
