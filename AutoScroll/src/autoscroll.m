@@ -11,7 +11,7 @@
 
 //"config"
 int autoscrollIconSize = 32;
-NSArray* blacklist = @[@"md.obsidian", @"com.microsoft.VSCode", @"com.microsoft.VSCodeInsiders", @"com.visualstudio.code.oss", @"com.barebones.bbedit", @"com.jetbrains.intellij", @"com.jetbrains.WebStorm", @"com.jetbrains.PhpStorm", @"com.jetbrains.rubymine", @"com.jetbrains.clion", @"com.jetbrains.goland", @"com.jetbrains.appcode", @"com.jetbrains.pycharm", /* @"com.apple.Safari", @"org.mozilla.firefoxdeveloperedition" */];
+NSArray* blacklist = @[];
 BOOL isBlacklisted(NSString* appBID) {
     for (NSString *str in blacklist)
         if ([str isEqualToString: appBID]) return YES;
@@ -110,6 +110,11 @@ void overrideDefaultMiddleMouseUp(CGEventRef e) {
     [autoscrollImageWindow setLevel: NSPopUpMenuWindowLevel]; //float window
     [autoscrollImageWindow setIgnoresMouseEvents:YES]; //allows the scroll to not be absorbed by the window
     [autoscrollImageWindow setBackgroundColor:[NSColor clearColor]]; //transparent window background
+    [self updateBlacklist];
+}
++ (void) updateBlacklist {
+    NSString* txt = ((NSTextView*)[helperLib getApp]->blacklistView.documentView).string;
+    NSLog(@"%@",txt);
 }
 + (BOOL) mousedown: (CGEventRef) e : (CGEventType) etype {
     if (etype != kCGEventOtherMouseDown) return YES;

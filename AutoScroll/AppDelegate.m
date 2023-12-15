@@ -11,11 +11,31 @@
 #import "src/globals.h"
 #import "src/autoscroll.h"
 
+NSArray* DEFAULT_BLACKLIST = @[
+    @"md.obsidian",
+    @"com.microsoft.VSCode",
+    @"com.microsoft.VSCodeInsiders",
+    @"com.visualstudio.code.oss",
+    @"com.barebones.bbedit",
+    @"com.jetbrains.intellij",
+    @"com.jetbrains.WebStorm",
+    @"com.jetbrains.PhpStorm",
+    @"com.jetbrains.rubymine",
+    @"com.jetbrains.clion",
+    @"com.jetbrains.goland",
+    @"com.jetbrains.appcode",
+    @"com.jetbrains.pycharm",
+    /* @"com.apple.Safari", @"org.mozilla.firefoxdeveloperedition" */];
+
 @interface AppDelegate ()
 //@property (strong) IBOutlet NSWindow *window;
 @end
 
 @implementation AppDelegate
+- (IBAction)defaultBlacklistLinkBtn:(id)sender {
+    NSButton* button = (NSButton*)sender;
+    [NSWorkspace.sharedWorkspace openURL: [NSURL URLWithString: @"https://github.com/steventheworker/AutoScroll/blob/main/AutoScroll/AppDelegate.m"]];
+}
 - (IBAction)checkUncheckMenuIcon:(id)sender {
     [statusItem setVisible: (BOOL) [sender state]];
     [[NSUserDefaults standardUserDefaults] setBool: (BOOL) [sender state] forKey: @"showMenubarIcon"];

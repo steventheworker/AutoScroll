@@ -30,6 +30,7 @@
     __weak IBOutlet NSView *MainMenu;
     __weak IBOutlet NSTextField *BTTState;
     __weak IBOutlet NSButton *menuiconCheckbox;
+    __weak IBOutlet NSScrollView *blacklistView;
 }
 @property (strong) IBOutlet NSWindow *window;
 /*
