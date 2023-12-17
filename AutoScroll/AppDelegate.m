@@ -32,6 +32,7 @@ NSString* defaultBlacklistStr(void) {
     return ret;
 }
 
+AXUIElementRef systemWideEl = nil;
 @interface AppDelegate ()
 //@property (strong) IBOutlet NSWindow *window;
 @end
@@ -50,6 +51,7 @@ NSString* defaultBlacklistStr(void) {
 
 /* lifecycle */
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [helperLib setSystemWideEl: (systemWideEl = AXUIElementCreateSystemWide())];
     [app init];
     
     //blacklist

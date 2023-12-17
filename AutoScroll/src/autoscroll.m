@@ -74,7 +74,42 @@ void shouldTriggerMiddleClick(void) { // allows middle clicks to go through if i
     CGEventPost (kCGHIDEventTap, CGEventCreateMouseEvent (NULL,kCGEventOtherMouseDown,cur,kCGMouseButtonCenter));
     CGEventPost (kCGHIDEventTap, CGEventCreateMouseEvent (NULL,kCGEventOtherMouseUp,cur,kCGMouseButtonCenter));
 }
-
+id windowWithEl(id el) {
+    if (!el || (id)@0 == el) return nil;
+    if ([[helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: @"AXWindow"]) return el;
+    return windowWithEl([helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"parent": (id)kAXParentAttribute}][@"parent"]);
+}
+id windowRootElHavingRole(id el, NSString* roleMatch) {
+    id win = windowWithEl(el);
+    id container = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(win) : @{@"children": (id)kAXChildrenAttribute}][@"children"][0]; // first window UI Element = AXUknown (group) (which is the container)
+    for (id child in [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(container) : @{@"children": (id)kAXChildrenAttribute}][@"children"])
+        if ([[helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(child) : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: roleMatch])
+            return child;
+    return nil;
+}
+BOOL isElInSidebar(id el, CGPoint mouseLoc) {
+    id sidebar = windowRootElHavingRole(el, @"AXScrollArea");
+    NSDictionary* dict = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(sidebar) : @{
+        @"pos": (id)kAXPositionAttribute,
+        @"size": (id)kAXSizeAttribute
+    }];
+    if (mouseLoc.x >= [dict[@"pos"][@"x"] floatValue] && mouseLoc.x <= [dict[@"pos"][@"x"] floatValue] + [dict[@"size"][@"width"] floatValue])
+    if (mouseLoc.y >= [dict[@"pos"][@"y"] floatValue] && mouseLoc.y <= [dict[@"pos"][@"y"] floatValue] + [dict[@"size"][@"height"] floatValue])
+        return YES;
+    return NO;
+}
+BOOL appHasPartialImplementation(NSRunningApplication* app, CGEventRef e) { //eg: firefox lets you autoscroll, but not on the sidebar, so we propagate all but the sidebar
+    if ([app.localizedName hasPrefix: @"Firefox"]) {
+        CGPoint mouseLoc = CGEventGetLocation(e);
+        id el = [helperLib elementAtPoint: mouseLoc];
+        NSDictionary* dict = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"pid": (id)kAXPIDAttribute}];
+        pid_t mousepid = [dict[@"pid"] intValue];
+        if (mousepid != app.processIdentifier) return NO; //middle clicking outside of Firefox
+        if (isElInSidebar(el, mouseLoc)) return NO; // use AutoScroll.app
+        return YES; // propagate (so the app uses its own implementation)
+    }
+    return NO;
+}
 
 void overrideDefaultMiddleMouseDown(CGEventRef e) {
     if (!autoscrollImageWindow) return;
@@ -127,14 +162,14 @@ void overrideDefaultMiddleMouseUp(CGEventRef e) {
 + (BOOL) mousedown: (CGEventRef) e : (CGEventType) etype {
     if (etype != kCGEventOtherMouseDown) return YES;
     NSRunningApplication* activeApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    if (isBlacklisted(activeApp.bundleIdentifier)) return YES;
+    if (isBlacklisted(activeApp.bundleIdentifier) || appHasPartialImplementation(activeApp, e)) return YES;
     overrideDefaultMiddleMouseDown(e);
     return NO;
 }
 + (BOOL) mouseup: (CGEventRef) e : (CGEventType) etype {
     if (etype != kCGEventOtherMouseUp) return YES;
     NSRunningApplication* activeApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    if (isBlacklisted(activeApp.bundleIdentifier)) return YES;
+    if (isBlacklisted(activeApp.bundleIdentifier) || appHasPartialImplementation(activeApp, e)) return YES;
     overrideDefaultMiddleMouseUp(e);
     return NO;
 }

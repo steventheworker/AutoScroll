@@ -8,8 +8,14 @@
 #import <Foundation/Foundation.h>
 #import "AppDelegate.h"
 
+//missing attributes
+#define kAXPIDAttribute CFSTR("AXPID") //dunno why AXUIElementGetPid is so special (no way to get pid with AXUIElementCopyAttributeValue)
+#define kAXFullscreenAttribute CFSTR("kAXFullscreenAttribute")
+#define kAXStatusLabelAttribute CFSTR("kAXStatusLabelAttribute")
+
 NS_ASSUME_NONNULL_BEGIN
 @interface helperLib : NSObject {}
++ (void) setSystemWideEl: (AXUIElementRef) el;
 + (NSString*) getDockPosition;
 + (pid_t) getPID: (NSString*) tar;
 + (NSDictionary*) appInfo: (NSString*) owner;
@@ -24,7 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray*) getWindowsForOwnerPID: (pid_t) PID;
 + (NSMutableArray*) getRealFinderWindows;
 + (NSApplication *) sharedApplication;
-+ (AXUIElementRef) elementAtPoint: (CGPoint) carbonPoint;
++ (id) elementAtPoint: (CGPoint) pt;
++ (NSDictionary*) elementDict: (AXUIElementRef) el : (NSDictionary*) attributeDict;
 + (NSDictionary*) axInfo: (AXUIElementRef) el;
 + (void) listenScreens;
 + (CFMachPortRef) listenMouseDown;
