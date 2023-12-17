@@ -76,20 +76,19 @@ void shouldTriggerMiddleClick(void) { // allows middle clicks to go through if i
 }
 id windowWithEl(id el) {
     if (!el || (id)@0 == el) return nil;
-    if ([[helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: @"AXWindow"]) return el;
-    return windowWithEl([helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"parent": (id)kAXParentAttribute}][@"parent"]);
+    if ([[helperLib elementDict: el : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: @"AXWindow"]) return el;
+    return windowWithEl([helperLib elementDict: el : @{@"parent": (id)kAXParentAttribute}][@"parent"]);
 }
-id windowRootElHavingRole(id el, NSString* roleMatch) {
-    id win = windowWithEl(el);
-    id container = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(win) : @{@"children": (id)kAXChildrenAttribute}][@"children"][0]; // first window UI Element = AXUknown (group) (which is the container)
-    for (id child in [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(container) : @{@"children": (id)kAXChildrenAttribute}][@"children"])
-        if ([[helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(child) : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: roleMatch])
+id rootElHavingRole(id el, NSString* roleMatch) {
+    for (id child in [helperLib elementDict: el : @{@"children": (id)kAXChildrenAttribute}][@"children"])
+        if ([[helperLib elementDict: child : @{@"role": (id)kAXRoleAttribute}][@"role"] isEqual: roleMatch])
             return child;
     return nil;
 }
-BOOL isElInSidebar(id el, CGPoint mouseLoc) {
-    id sidebar = windowRootElHavingRole(el, @"AXScrollArea");
-    NSDictionary* dict = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(sidebar) : @{
+BOOL isElInSidebar(id win, id el, CGPoint mouseLoc) {
+    id sidebarContainer = [helperLib elementDict: win : @{@"children": (id)kAXChildrenAttribute}][@"children"][0]; // first window UI Element = AXUknown (group) (which is the container)
+    id sidebar = rootElHavingRole(sidebarContainer, @"AXScrollArea");
+    NSDictionary* dict = [helperLib elementDict: sidebar : @{
         @"pos": (id)kAXPositionAttribute,
         @"size": (id)kAXSizeAttribute
     }];
@@ -98,14 +97,21 @@ BOOL isElInSidebar(id el, CGPoint mouseLoc) {
         return YES;
     return NO;
 }
+BOOL isPIPMainWindow(id win) {
+    id appEl = [helperLib elementDict: win : @{@"p": (id)kAXParentAttribute}][@"p"];
+    id appMainWindow = [helperLib elementDict: appEl : @{@"main": (id)kAXMainWindowAttribute}][@"main"];
+    if ([[helperLib elementDict: appMainWindow : @{@"title": (id)kAXTitleAttribute}][@"title"] isEqual: @"Picture-in-Picture"]) return YES;
+    return NO;
+}
 BOOL appHasPartialImplementation(NSRunningApplication* app, CGEventRef e) { //eg: firefox lets you autoscroll, but not on the sidebar, so we propagate all but the sidebar
     if ([app.localizedName hasPrefix: @"Firefox"]) {
         CGPoint mouseLoc = CGEventGetLocation(e);
         id el = [helperLib elementAtPoint: mouseLoc];
-        NSDictionary* dict = [helperLib elementDict: (__bridge AXUIElementRef _Nonnull)(el) : @{@"pid": (id)kAXPIDAttribute}];
+        NSDictionary* dict = [helperLib elementDict: el : @{@"pid": (id)kAXPIDAttribute}];
         pid_t mousepid = [dict[@"pid"] intValue];
         if (mousepid != app.processIdentifier) return NO; //middle clicking outside of Firefox
-        if (isElInSidebar(el, mouseLoc)) return NO; // use AutoScroll.app
+        id win = windowWithEl(el);
+        if (isElInSidebar(win, el, mouseLoc) || isPIPMainWindow(win)) return NO; // use AutoScroll.app
         return YES; // propagate (so the app uses its own implementation)
     }
     return NO;

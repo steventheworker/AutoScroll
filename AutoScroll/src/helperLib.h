@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSMutableArray*) getRealFinderWindows;
 + (NSApplication *) sharedApplication;
 + (id) elementAtPoint: (CGPoint) pt;
-+ (NSDictionary*) elementDict: (AXUIElementRef) el : (NSDictionary*) attributeDict;
++ (NSDictionary*) elementDict: (id) elID : (NSDictionary*) attributeDict;
 + (NSDictionary*) axInfo: (AXUIElementRef) el;
 + (void) listenScreens;
 + (CFMachPortRef) listenMouseDown;

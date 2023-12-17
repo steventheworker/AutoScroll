@@ -262,7 +262,8 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
     if (result != kAXErrorSuccess) NSLog(@"%f, %f elementAtPoint failed", pt.x, pt.y);
     return (__bridge_transfer id)element; // ARC takes ownership, otherwise need to call CFRelease somewhere down the line
 }
-+ (NSDictionary*) elementDict: (AXUIElementRef) el : (NSDictionary*) attributeDict {
++ (NSDictionary*) elementDict: (id) elID : (NSDictionary*) attributeDict {
+    AXUIElementRef el = (__bridge AXUIElementRef)(elID);
     if (!el) return @{};
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     for (NSString* attributeName in attributeDict) {
@@ -385,7 +386,10 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
         } else if (attribute == (id)kAXMatteHoleAttribute) {
             // Handle kAXMatteHoleAttribute
         } else if (attribute == (id)kAXMainWindowAttribute) {
-            // Handle kAXMainWindowAttribute
+            AXUIElementRef axWindow;
+            AXError result = AXUIElementCopyAttributeValue(el, kAXMainWindowAttribute, (void*)&axWindow);
+            if (result == kAXErrorSuccess) dict[attributeName] = (__bridge id)axWindow;
+            else dict[attributeName] = @0;
         } else if (attribute == (id)kAXMaxValueAttribute) {
             // Handle kAXMaxValueAttribute
         } else if (attribute == (id)kAXMenuBarAttribute) {
