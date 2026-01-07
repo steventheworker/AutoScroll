@@ -103,6 +103,13 @@ BOOL isPIPMainWindow(id win) {
     if ([[helperLib elementDict: appMainWindow : @{@"title": (id)kAXTitleAttribute}][@"title"] isEqual: @"Picture-in-Picture"]) return YES;
     return NO;
 }
+BOOL isElInDevTools(id el, int currentDepth) { // initial call w/ currentDepth=0
+    if (!el) return NO;
+    el = [helperLib elementDict: el : @{@"p": (id)kAXParentAttribute}][@"p"];
+    NSDictionary* dict = [helperLib elementDict: el : @{@"title": (id)kAXTitleAttribute}];
+    if ([dict[@"title"] isEqual: @"Developer Tools"]) return YES;
+    return ++currentDepth >= 30 /* max depth */ ? NO : isElInDevTools(el, currentDepth);
+}
 BOOL appHasPartialImplementation(NSRunningApplication* app, CGEventRef e) { //eg: firefox lets you autoscroll, but not on the sidebar, so we propagate all but the sidebar
     if ([app.localizedName hasPrefix: @"Firefox"]) {
         CGPoint mouseLoc = CGEventGetLocation(e);
@@ -111,7 +118,7 @@ BOOL appHasPartialImplementation(NSRunningApplication* app, CGEventRef e) { //eg
         pid_t mousepid = [dict[@"pid"] intValue];
         if (mousepid != app.processIdentifier) return NO; //middle clicking outside of Firefox
         id win = windowWithEl(el);
-        if (isElInSidebar(win, el, mouseLoc) || isPIPMainWindow(win)) return NO; // use AutoScroll.app
+        if (isElInSidebar(win, el, mouseLoc) || isPIPMainWindow(win) || isElInDevTools(el, 0)) return NO; // use AutoScroll.app
         return YES; // propagate (so the app uses its own implementation)
     }
     return NO;
@@ -175,7 +182,7 @@ void overrideDefaultMiddleMouseUp(CGEventRef e) {
 + (BOOL) mouseup: (CGEventRef) e : (CGEventType) etype {
     if (etype != kCGEventOtherMouseUp) return YES;
     NSRunningApplication* activeApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
-    if (isBlacklisted(activeApp.bundleIdentifier) || appHasPartialImplementation(activeApp, e)) return YES;
+    if (isBlacklisted(activeApp.bundleIdentifier) || (scrollCounter == -1 && appHasPartialImplementation(activeApp, e))) return YES;
     overrideDefaultMiddleMouseUp(e);
     return NO;
 }

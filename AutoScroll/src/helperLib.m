@@ -436,7 +436,7 @@ void proc(CGDirectDisplayID display, CGDisplayChangeSummaryFlags flags, void* us
         } else if (attribute == (id)kAXParentAttribute) {
             AXUIElementRef parent;
             AXError result = AXUIElementCopyAttributeValue(el, kAXParentAttribute, (void*)&parent);
-            if (result == kAXErrorSuccess) dict[attributeName] = (__bridge id)parent;
+            if (result == kAXErrorSuccess) dict[attributeName] = (__bridge_transfer id)parent;
             else dict[attributeName] = @0;
         } else if (attribute == (id)kAXPositionAttribute) {
             CFTypeRef positionRef;

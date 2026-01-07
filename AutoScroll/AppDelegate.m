@@ -17,14 +17,16 @@ NSArray* DEFAULT_BLACKLIST = @[
     @"com.microsoft.VSCodeInsiders",
     @"com.visualstudio.code.oss",
     @"com.barebones.bbedit",
-    @"com.jetbrains.intellij",
-    @"com.jetbrains.WebStorm",
-    @"com.jetbrains.PhpStorm",
-    @"com.jetbrains.rubymine",
-    @"com.jetbrains.clion",
-    @"com.jetbrains.goland",
-    @"com.jetbrains.appcode",
-    @"com.jetbrains.pycharm",
+    
+//    @"com.jetbrains.intellij",
+//    @"com.jetbrains.WebStorm",
+//    @"com.jetbrains.PhpStorm",
+//    @"com.jetbrains.rubymine",
+//    @"com.jetbrains.clion",
+//    @"com.jetbrains.goland",
+//    @"com.jetbrains.appcode",
+//    @"com.jetbrains.pycharm",
+    
     /* @"com.apple.Safari", @"org.mozilla.firefoxdeveloperedition" */];
 NSString* defaultBlacklistStr(void) {
     NSMutableString* ret = NSMutableString.string;
